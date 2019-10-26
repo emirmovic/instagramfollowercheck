@@ -13,13 +13,16 @@ def goToProfile(driver, username):
 
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
     search.clear()
-    
-    
+
+    followers = driver.find_element_by_xpath('/html/body/span/section/main/div/ul/li[2]/a')
+    followers.click()
+    # yo wassup
     
     
 
 def instagramLogin(usernameInput, passwordInput):
-    driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
+    # driver = webdriver.Chrome('/Users/emirmovic/Desktop/chromedriver')
+    # driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
     
     time.sleep(1)
