@@ -6,22 +6,28 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import time
 
-def goToProfile(driver, username):
+def goToProfile(driver, usernameInput):
 
 ##    profile = driver.find_element_by_xpath("/html/body/span/section/nav/div[2]/div/div/div[3]/div/div[3]/a/svg/g/path")
 ##    profile.click()
 
-    search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
+    search = driver.find_element_by_xpath(
+        '/html/body/span/section/nav/div[2]/div/div/div[2]/input')
     search.clear()
+    search.send_keys(usernameInput)
+    time.sleep(2)
+    search.send_keys(Keys.TAB)
+    search.send_keys(Keys.ENTER)
 
-    followers = driver.find_element_by_xpath('/html/body/span/section/main/div/ul/li[2]/a')
-    followers.click()
+    # followers = driver.find_element_by_xpath(
+    #     '/html/body/span/section/main/div/ul/li[2]/a')
+    # followers.click()
     
     
 
 def instagramLogin(usernameInput, passwordInput):
     # driver = webdriver.Chrome('/Users/emirmovic/Desktop/chromedriver')
-    # driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
+    driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
     
     time.sleep(1)
@@ -45,15 +51,7 @@ def instagramLogin(usernameInput, passwordInput):
         pass
 
     time.sleep(2)
-    
-##    goToProfile(driver)
-
-    search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
-    search.clear()
-    search.send_keys(usernameInput)
-    time.sleep(2)
-    search.send_keys(Keys.TAB)
-    search.send_keys(Keys.ENTER)
+    goToProfile(driver, usernameInput)
     
 
 def setVariables():
