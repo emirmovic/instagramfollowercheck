@@ -21,7 +21,7 @@ def goToProfile(driver, username):
     
 
 def instagramLogin(usernameInput, passwordInput):
-    # driver = webdriver.Chrome('/Users/emirmovic/Desktop/chromedriver')
+    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver')
     # driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
     
