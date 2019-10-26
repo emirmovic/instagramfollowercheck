@@ -16,7 +16,6 @@ def goToProfile(driver, username):
 
     followers = driver.find_element_by_xpath('/html/body/span/section/main/div/ul/li[2]/a')
     followers.click()
-    # yo wassup
     
     
 
