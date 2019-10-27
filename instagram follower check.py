@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 import time
 
-def analyzeFollowers(driver, followers):
+def analyzeFollowers(driver, followers, totalFollowers):
     driver.implicitly_wait(2)
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
     tabthrough.click()
@@ -18,7 +18,7 @@ def analyzeFollowers(driver, followers):
 
     i = 0
     numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowersInList < 153):
+    while (numberOfFollowersInList < totalFollowers):
         if i < 4:
             tabthrough.click()
             i += 1
@@ -40,7 +40,11 @@ def analyzeFollowers(driver, followers):
 
 
     ### Scrolls down followers list ###
+    totalFollowing = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span')
+    totalFollowing = int(totalFollowing.text)
 
+    print(totalFollowing)
+    
     driver.implicitly_wait(2)
 
     following = driver.find_element_by_partial_link_text("following")
@@ -58,7 +62,7 @@ def analyzeFollowers(driver, followers):
 
     n = 0
     numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowingInList < 116):
+    while (numberOfFollowingInList < totalFollowing):
         if n < 4:
             tabthrough.click()
             n += 1
@@ -92,16 +96,18 @@ def goToProfile(driver, usernameInput, seconds):
     search.send_keys(Keys.TAB)
     search.send_keys(Keys.ENTER)
 
+    totalFollowers = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[2]/a/span')
+    totalFollowers = int(totalFollowers.text)
 
     driver.implicitly_wait(2)
     followers = driver.find_element_by_partial_link_text("followers")
     followers.click()
-    analyzeFollowers(driver, followers)
+    analyzeFollowers(driver, followers, totalFollowers)
 
 
 def instagramLogin(usernameInput, passwordInput):
-    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
-    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
+    #driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
 
     driver.implicitly_wait(1)
@@ -115,17 +121,17 @@ def instagramLogin(usernameInput, passwordInput):
 
     password.send_keys(Keys.RETURN)
 
-    driver.implicitly_wait(2)
+    time.sleep(1.5)
     try:
         notnow = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[3]/button[1]")
         notnow.click()
     except:
         pass
 
-    try:
-        goToProfile(driver, usernameInput, 0.55)
-    except:
-        goToProfile(driver, usernameInput, 2)
+    
+    goToProfile(driver, usernameInput, 0.8)
+##    except:
+##        goToProfile(driver, usernameInput, 2)
 
 
 def setVariables():
