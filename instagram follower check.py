@@ -18,8 +18,8 @@ def analyzeFollowers(driver, followers):
 
     i = 0
     numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowersInList < 533):
-        if i < 2:
+    while (numberOfFollowersInList < 153):
+        if i < 4:
             tabthrough.click()
             i += 1
         actionChain.key_down(Keys.SPACE).perform()
@@ -28,6 +28,7 @@ def analyzeFollowers(driver, followers):
     actionChain.key_up(Keys.SPACE).perform()
 
 
+    ### Put the followers into an array ###
     arrayOfFollowers = []
 
     for i in range(1, numberOfFollowersInList+1):
@@ -37,12 +38,15 @@ def analyzeFollowers(driver, followers):
     pressexit = driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div[2]/button')
     pressexit.click()
 
-    time.sleep(1)
+
+    ### Scrolls down followers list ###
+
+    driver.implicitly_wait(2)
 
     following = driver.find_element_by_partial_link_text("following")
     following.click()
 
-    time.sleep(1)
+    driver.implicitly_wait(2)
 
     #following
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
@@ -54,8 +58,8 @@ def analyzeFollowers(driver, followers):
 
     n = 0
     numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowingInList < 797):
-        if n < 2:
+    while (numberOfFollowingInList < 116):
+        if n < 4:
             tabthrough.click()
             n += 1
         actionChain.key_down(Keys.SPACE).perform()
