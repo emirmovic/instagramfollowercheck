@@ -16,18 +16,18 @@ def finalArrayGUI(finalArray, driver):
         print(unfollowList)
 
         for item in unfollowList:
+            time.sleep(1.2)
             search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
             search.clear()
             search.send_keys(item)
-            time.sleep(1)
+            time.sleep(1.2)
             search.send_keys(Keys.TAB)
             search.send_keys(Keys.ENTER)
             clickunfollow = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
             clickunfollow.click()
-            driver.implicitly_wait(2)
+            time.sleep(1.2)
             clicksure = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[1]')
             clicksure.click()
-            time.sleep(0.3)
 
 
         master2.destroy()
@@ -46,7 +46,7 @@ def finalArrayGUI(finalArray, driver):
     check_boxes = {item:IntVar() for item in finalArray} #create dict of check_boxes
 
     while count < len(finalArray):
-        if colnum == 3:
+        if colnum == 10:
             colnum = 0
             rownum += 2
         Label(master2, text = finalArray[count]).grid(row = rownum, column = colnum, ipadx = 30)
@@ -57,7 +57,7 @@ def finalArrayGUI(finalArray, driver):
         colnum += 1
 
     button = Button(master2, text="unfollow selected", fg="red", pady = 10, command = confirm)
-    button.grid(row = rownum+2,column=1)
+    button.grid(row = rownum+2,column=4)
 
     master2.mainloop()
 
