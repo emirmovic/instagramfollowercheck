@@ -377,3 +377,6 @@
 [1026/190017.097:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fffe7c538a8 of 512 bytes failed: Only part of a ReadProcessMemory or WriteProcessMemory request was completed. (0x12B)
 [1026/190017.097:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fffe878c0e0 of 512 bytes failed: Only part of a ReadProcessMemory or WriteProcessMemory request was completed. (0x12B)
 [1026/190017.101:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
+[1026/230004.192:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[1026/230004.193:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[1026/230004.193:ERROR:exception_snapshot_win.cc(98)] thread ID 14696 not found in process

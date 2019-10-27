@@ -2,6 +2,7 @@ import tkinter
 import tkinter as tk
 from tkinter import *
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 
 from selenium import webdriver
 import time
@@ -11,33 +12,18 @@ def analyzeFollowers(driver, followers):
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
     tabthrough.click()
 
-##    actionChain = webdriver.ActionChains(driver)
-    
-##    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-##    while (numberOfFollowersInList < 153):
-        
-##        actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
-##        time.sleep(0.25)
-##        tabthrough.click()
-##        numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-##        print(numberOfFollowersInList)
+    actionChain = webdriver.ActionChains(driver)
+    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
+    tabthrough.click()
 
-    nelson = driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/ul/div/li[1]/div/div[2]/div[1]/div/div/a')
-    print(nelson.getAttribute(title))
-
-
-
-    
-##    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-##
-##    actionChain = webdriver.ActionChains(driver)
-##    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE)
-    
-##    while (numberOfFollowersInList < 152):
-##        time.sleep(3)
-##        actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
-##        numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-##        print(numberOfFollowersInList)
+    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+    while (numberOfFollowersInList < 153):
+        tabthrough.click()
+        actionChain.key_down(Keys.SPACE).perform()
+        numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+        # print(numberOfFollowersInList)
+        time.sleep(0.2)
+    actionChain.key_up(Keys.SPACE).perform()
         
     
 def goToProfile(driver, usernameInput):
@@ -45,11 +31,11 @@ def goToProfile(driver, usernameInput):
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
     search.clear()
     search.send_keys(usernameInput)
-    time.sleep(2)
+    # time.sleep(2)
     search.send_keys(Keys.TAB)
     search.send_keys(Keys.ENTER)
 
-    time.sleep(2)
+    # time.sleep(2)
     # followers = driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]')
     followers = driver.find_element_by_partial_link_text("followers")
     followers.click()
@@ -57,11 +43,9 @@ def goToProfile(driver, usernameInput):
     
 
 def instagramLogin(usernameInput, passwordInput):
-    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chormedriver_mac')
-##    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
+    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
-    
-    time.sleep(1)
     
     username = driver.find_element_by_name("username")
     username.clear()
@@ -73,15 +57,13 @@ def instagramLogin(usernameInput, passwordInput):
 
     password.send_keys(Keys.RETURN)
 
-    time.sleep(2)
-
     try:
         notnow = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[3]/button[1]")
         notnow.click()
     except:
         pass
 
-    time.sleep(2)
+    # time.sleep(2)
     
     goToProfile(driver, usernameInput)
     
