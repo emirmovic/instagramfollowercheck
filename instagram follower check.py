@@ -21,19 +21,57 @@ def analyzeFollowers(driver, followers):
         tabthrough.click()
         actionChain.key_down(Keys.SPACE).perform()
         numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-        # print(numberOfFollowersInList)
-        time.sleep(0.2)
+        time.sleep(0.25)
     actionChain.key_up(Keys.SPACE).perform()
 
 
-    array = []
+    arrayOfFollowers = []
+    
     for i in range(1, numberOfFollowersInList+1):
         account = driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/ul/div/li[' + str(i) + ']/div/div[1]/div[2]/div[1]/a')
-        array.append(account.get_attribute("title"))
+        arrayOfFollowers.append(account.get_attribute("title"))
 
+    pressexit = driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div[2]/button')
+    pressexit.click()
 
+    time.sleep(1)
 
-    print(array)
+    following = driver.find_element_by_partial_link_text("following")
+    following.click()
+
+    time.sleep(1)
+
+    #following
+    tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
+    tabthrough.click()
+
+    actionChain = webdriver.ActionChains(driver)
+    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
+    tabthrough.click()
+
+    numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
+    while (numberOfFollowingInList < 116):
+        tabthrough.click()
+        actionChain.key_down(Keys.SPACE).perform()
+        numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
+        time.sleep(0.25)
+    actionChain.key_up(Keys.SPACE).perform()
+
+    arrayOfFollowing = []
+    
+    for i in range(1, numberOfFollowingInList+1):
+        account = driver.find_element_by_xpath('//html/body/div[3]/div/div[2]/ul/div/li[' + str(i) + ']/div/div[1]/div[2]/div[1]/a')
+        arrayOfFollowing.append(account.get_attribute("title"))
+
+    finalArray = []
+
+    for i in range(len(arrayOfFollowing)):
+        if arrayOfFollowing[i] not in arrayOfFollowers:
+            finalArray.append(arrayOfFollowing[i])
+
+    print("List of people that don't follow you back: " + str(finalArray))
+
+    
     
 def goToProfile(driver, usernameInput):
     
@@ -84,21 +122,19 @@ def setVariables():
     usernameInput = entry1.get()
     passwordInput = entry2.get()
     instagramLogin(usernameInput, passwordInput)    
-    
+
+
 master = tkinter.Tk()
 master.title("Instagram Input")
 
 entry1 = Entry(master)
 entry2 = Entry(master, show="*")
 
-
-tkinter.Label(master, text = "Username:").grid(row = 0) # this is placed in 0 0
+tkinter.Label(master, text = "Username:").grid(row = 0)
 entry1.grid(row = 0, column = 1)
 
 tkinter.Label(master, text = "Password:").grid(row = 1)
 entry2.grid(row = 1, column = 1)
-
-
 
 button = Button(master, text="Submit", fg="red", command=setVariables)
 button.grid(row=3,column=1)
