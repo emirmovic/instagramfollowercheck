@@ -15,21 +15,29 @@ def finalArrayGUI(finalArray, driver):
                 unfollowList.append(finalArray[i])
         print(unfollowList)
 
+        error_list = []
         for item in unfollowList:
-            time.sleep(1.2)
-            search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
-            search.clear()
-            search.send_keys(item)
-            time.sleep(1.2)
-            search.send_keys(Keys.TAB)
-            search.send_keys(Keys.ENTER)
-            clickunfollow = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
-            clickunfollow.click()
-            time.sleep(1.2)
-            clicksure = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[1]')
-            clicksure.click()
+            try:
+                time.sleep(1.2)
+                search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
+                search.clear()
+                search.send_keys(item)
+                time.sleep(1.5)
+                search.send_keys(Keys.TAB)
+                search.send_keys(Keys.ENTER)
+
+                time.sleep(1.5)
+                clickunfollow = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
+                clickunfollow.click()
+                driver.implicitly_wait(3)
+                clicksure = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[1]')
+                clicksure.click()
+            except:
+                error_list.append(item)
+                continue
 
 
+        print(error_list)
         master2.destroy()
 
     master.destroy()
@@ -73,12 +81,12 @@ def analyzeFollowers(driver, followers, totalFollowers):
     i = 0
     numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
     while (numberOfFollowersInList < totalFollowers):
-        if i < 4:
+        if i < 5:
             tabthrough.click()
             i += 1
         actionChain.key_down(Keys.SPACE).perform()
         numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-        time.sleep(0.25)
+        time.sleep(0.5)
     actionChain.key_up(Keys.SPACE).perform()
 
 
@@ -95,7 +103,7 @@ def analyzeFollowers(driver, followers, totalFollowers):
 
     ### Scrolls down followers list ###
     totalFollowing = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a/span')
-    totalFollowing = int(totalFollowing.text)
+    totalFollowing = int(totalFollowing.text.replace(",",""))
 
     print(totalFollowing)
 
@@ -117,12 +125,12 @@ def analyzeFollowers(driver, followers, totalFollowers):
     n = 0
     numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
     while (numberOfFollowingInList < totalFollowing):
-        if n < 4:
+        if n < 5:
             tabthrough.click()
             n += 1
         actionChain.key_down(Keys.SPACE).perform()
         numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
-        time.sleep(0.25)
+        time.sleep(0.5)
     actionChain.key_up(Keys.SPACE).perform()
 
     arrayOfFollowing = []
@@ -155,7 +163,7 @@ def goToProfile(driver, usernameInput, seconds):
     search.send_keys(Keys.ENTER)
 
     totalFollowers = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[2]/a/span')
-    totalFollowers = int(totalFollowers.text)
+    totalFollowers = int(totalFollowers.text.replace(",",""))
 
     driver.implicitly_wait(2)
     followers = driver.find_element_by_partial_link_text("followers")
