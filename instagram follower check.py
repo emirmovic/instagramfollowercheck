@@ -37,7 +37,7 @@ def finalArrayGUI(finalArray, driver):
                 continue
 
 
-        print(error_list)
+        print("We're sorry. These users didnt work.\n" , error_list)
         master2.destroy()
 
     master.destroy()
