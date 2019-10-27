@@ -1,6 +1,5 @@
-import tkinter
-import tkinter as tk
 from tkinter import *
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -44,7 +43,7 @@ def analyzeFollowers(driver, followers, totalFollowers):
     totalFollowing = int(totalFollowing.text)
 
     print(totalFollowing)
-    
+
     driver.implicitly_wait(2)
 
     following = driver.find_element_by_partial_link_text("following")
@@ -85,8 +84,6 @@ def analyzeFollowers(driver, followers, totalFollowers):
 
     print("List of people that don't follow you back: " + str(finalArray))
 
-
-
 def goToProfile(driver, usernameInput, seconds):
     driver.implicitly_wait(2)
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
@@ -104,10 +101,9 @@ def goToProfile(driver, usernameInput, seconds):
     followers.click()
     analyzeFollowers(driver, followers, totalFollowers)
 
-
 def instagramLogin(usernameInput, passwordInput):
-    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
-    #driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
+    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
 
     driver.implicitly_wait(1)
@@ -128,7 +124,7 @@ def instagramLogin(usernameInput, passwordInput):
     except:
         pass
 
-    
+## May cause errors, use try except block ##
     goToProfile(driver, usernameInput, 0.8)
 ##    except:
 ##        goToProfile(driver, usernameInput, 2)
@@ -139,20 +135,31 @@ def setVariables():
     passwordInput = entry2.get()
     instagramLogin(usernameInput, passwordInput)
 
-
-master = tkinter.Tk()
+### Sets up the starting GUI ###
+master = Tk()
+master.configure(background="#031229", padx = 10, pady = 20)
+master.minsize(300,150)
 master.title("Instagram Input")
 
-entry1 = Entry(master)
-entry2 = Entry(master, show="*")
+entry1 = Entry(master, font =('Verdana', 10), justify = CENTER)
+entry2 = Entry(master, font =('Verdana', 10), justify = CENTER, show="*")
 
-tkinter.Label(master, text = "Username:").grid(row = 0)
-entry1.grid(row = 0, column = 1)
+Label(master, text = "Find Your Instagram Unfollowers", font =('Verdana', 18), bg = "#031229", fg = "white").grid(columnspan = 2, padx = 20, pady = 10)
 
-tkinter.Label(master, text = "Password:").grid(row = 1)
-entry2.grid(row = 1, column = 1)
+Label(master, text = "Username:", font =('Verdana', 14), bg = "#031229", fg = "white").grid(row = 1, padx = 10, pady = 10, sticky = E)
+entry1.grid(row = 1, column = 1, ipadx = 5, sticky = W, pady = 10)
 
-button = Button(master, text="Submit", fg="red", command=setVariables)
-button.grid(row=3,column=1)
+Label(master, text = "Password:", font =('Verdana', 14), bg = "#031229", fg = "white").grid(row = 2, padx = 10, sticky = E)
+entry2.grid(row = 2, column = 1, ipadx = 5, sticky = W+N, pady = 10)
+
+button = Button(master, text="Submit", font = ('Verdana', 11), bg = "#29364a", fg = "white", command=setVariables)
+button.grid(row=4,columnspan=2, ipadx = 40, pady = 20)
+
+img = PhotoImage(file = r"../instagramfollowercheck/instagram_icon.png")
+img1 = img.subsample(4, 4)
+
+Label(master, image = img1, bg = "#031229").grid(row = 5,
+       columnspan = 2, rowspan = 2, padx = 1, )
+
 
 master.mainloop()
