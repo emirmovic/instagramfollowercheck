@@ -1,8 +1,10 @@
 from tkinter import *
 
+import sys
+import getpass
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-
 from selenium import webdriver
 import time
 
@@ -171,8 +173,12 @@ def goToProfile(driver, usernameInput, seconds):
     analyzeFollowers(driver, followers, totalFollowers)
 
 def instagramLogin(usernameInput, passwordInput):
-    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
-    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    opsys = sys.platform
+    user = getpass.getuser()
+    if opsys == "win32":
+        driver = webdriver.Chrome('/Users/'+user+'/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    elif opsys == "darwin":
+        driver = webdriver.Chrome('/Users/'+user+'/Desktop/instagramfollowercheck/chromedriver_mac')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
 
     driver.implicitly_wait(1)
