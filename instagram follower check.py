@@ -11,11 +11,27 @@ def analyzeFollowers(driver, followers):
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
     tabthrough.click()
 
+##    actionChain = webdriver.ActionChains(driver)
     
-    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+##    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+##    while (numberOfFollowersInList < 153):
+        
+##        actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
+##        time.sleep(0.25)
+##        tabthrough.click()
+##        numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+##        print(numberOfFollowersInList)
 
-    actionChain = webdriver.ActionChains(driver)
-    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE)
+    nelson = driver.find_element_by_xpath('/html/body/div[3]/div/div[2]/ul/div/li[1]/div/div[2]/div[1]/div/div/a')
+    print(nelson.getAttribute(title))
+
+
+
+    
+##    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+##
+##    actionChain = webdriver.ActionChains(driver)
+##    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE)
     
 ##    while (numberOfFollowersInList < 152):
 ##        time.sleep(3)
