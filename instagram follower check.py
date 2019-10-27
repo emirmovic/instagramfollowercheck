@@ -7,6 +7,71 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 import time
 
+
+def finalArrayGUI(finalArray, driver):
+    def confirm():
+        unfollowList = []
+        for i in range(len(finalArray)):
+            if (check_boxes[finalArray[i]].get() == 1):
+                unfollowList.append(finalArray[i])
+        print(unfollowList)
+
+        for item in unfollowList:
+            search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
+            search.clear()
+            search.send_keys(item)
+            time.sleep(1)
+            search.send_keys(Keys.TAB)
+            search.send_keys(Keys.ENTER)
+            clickunfollow = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
+            clickunfollow.click()
+            driver.implicitly_wait(2)
+            clicksure = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[1]')
+            clicksure.click()
+            time.sleep(0.3)
+
+        master2.destroy()
+
+    master.destroy()
+    
+    master2 = tkinter.Tk()
+    master2.title("everyone")
+    
+
+    count = 0
+    rownum = 5
+    colnum = 0
+
+
+    check_boxes = {item:IntVar() for item in finalArray} #create dict of check_boxes
+
+    while count < len(finalArray):
+        if colnum == 3:
+            colnum = 0
+            rownum += 2
+        tkinter.Label(master2, text = finalArray[count]).grid(row = rownum, column = colnum, ipadx = 30)
+        
+        C = Checkbutton(master2, text="unfollow", variable = check_boxes[finalArray[count]]).grid(row= rownum + 1, column = colnum, ipadx = 5)
+        
+        count += 1
+        colnum += 1
+         
+    button = Button(master2, text="unfollow selected", fg="red", pady = 10, command = confirm)
+    button.grid(row = rownum+2,column=1)
+    
+    
+    entry1 = Entry(master2)
+    entry2 = Entry(master2, show="*")
+
+    tkinter.Label(master2, text = "Username:").grid(row = 0)
+    entry1.grid(row = 0, column = 1)
+
+    tkinter.Label(master2, text = "Password:").grid(row = 1)
+    entry2.grid(row = 1, column = 1)
+
+    button = Button(master2, text="Submit", fg="red", command=setVariables)
+    button.grid(row=3,column=1)
+    
 def analyzeFollowers(driver, followers, totalFollowers):
     driver.implicitly_wait(2)
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
@@ -84,8 +149,12 @@ def analyzeFollowers(driver, followers, totalFollowers):
             finalArray.append(arrayOfFollowing[i])
 
     print("List of people that don't follow you back: " + str(finalArray))
+    
+    pressexit = driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div[2]/button')
+    pressexit.click()
+    
 
-
+    finalArrayGUI(finalArray, driver)
 
 def goToProfile(driver, usernameInput, seconds):
     driver.implicitly_wait(2)
@@ -121,18 +190,14 @@ def instagramLogin(usernameInput, passwordInput):
 
     password.send_keys(Keys.RETURN)
 
-    time.sleep(1.5)
+    time.sleep(1.8)
     try:
         notnow = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[3]/button[1]")
         notnow.click()
     except:
         pass
-
     
-    goToProfile(driver, usernameInput, 0.8)
-##    except:
-##        goToProfile(driver, usernameInput, 2)
-
+    goToProfile(driver, usernameInput, 1)
 
 def setVariables():
     usernameInput = entry1.get()
@@ -154,5 +219,3 @@ entry2.grid(row = 1, column = 1)
 
 button = Button(master, text="Submit", fg="red", command=setVariables)
 button.grid(row=3,column=1)
-
-master.mainloop()
