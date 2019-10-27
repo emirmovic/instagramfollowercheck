@@ -6,6 +6,24 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import time
 
+def analyzeFollowers(driver, followers):
+    time.sleep(1)
+    tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
+    tabthrough.click()
+
+    
+    numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+
+    actionChain = webdriver.ActionChains(driver)
+    actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE)
+    
+##    while (numberOfFollowersInList < 152):
+##        time.sleep(3)
+##        actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
+##        numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
+##        print(numberOfFollowersInList)
+        
+    
 def goToProfile(driver, usernameInput):
     
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
@@ -19,13 +37,12 @@ def goToProfile(driver, usernameInput):
     # followers = driver.find_element_by_xpath('/html/body/div[2]/div/div[2]/div/div[2]')
     followers = driver.find_element_by_partial_link_text("followers")
     followers.click()
-    
+    analyzeFollowers(driver, followers)
     
 
 def instagramLogin(usernameInput, passwordInput):
-    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chormedriver_mac')
-    # driver = webdriver.Chrome('/Users/Test User/Desktop/chromedriver')
-    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chormedriver_mac')
+##    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
     
     time.sleep(1)
