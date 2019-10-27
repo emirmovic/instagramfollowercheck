@@ -16,9 +16,12 @@ def analyzeFollowers(driver, followers):
     actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
     tabthrough.click()
 
+    i = 0
     numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowersInList < 153):
-        tabthrough.click()
+    while (numberOfFollowersInList < 533):
+        if i < 2:
+            tabthrough.click()
+            i += 1
         actionChain.key_down(Keys.SPACE).perform()
         numberOfFollowersInList = len(tabthrough.find_elements_by_css_selector('li'))
         time.sleep(0.25)
@@ -49,9 +52,12 @@ def analyzeFollowers(driver, followers):
     actionChain.key_down(Keys.SPACE).key_up(Keys.SPACE).perform()
     tabthrough.click()
 
+    n = 0
     numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
-    while (numberOfFollowingInList < 116):
-        tabthrough.click()
+    while (numberOfFollowingInList < 797):
+        if n < 2:
+            tabthrough.click()
+            n += 1
         actionChain.key_down(Keys.SPACE).perform()
         numberOfFollowingInList = len(tabthrough.find_elements_by_css_selector('li'))
         time.sleep(0.25)
