@@ -40,39 +40,42 @@ def goToProfile(driver, usernameInput):
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
     search.clear()
     search.send_keys(usernameInput)
-    # time.sleep(2)
+    time.sleep(2)
     search.send_keys(Keys.TAB)
     search.send_keys(Keys.ENTER)
 
 
-    # time.sleep(2)
+    time.sleep(2)
     followers = driver.find_element_by_partial_link_text("followers")
     followers.click()
     analyzeFollowers(driver, followers)
     
 
 def instagramLogin(usernameInput, passwordInput):
-    # driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
-    driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
+    driver = webdriver.Chrome('/Users/emiribrisimovic/Desktop/instagramfollowercheck/chromedriver_mac')
+    # driver = webdriver.Chrome('/Users/Test User/Documents/GitHub/instagramfollowercheck/chromedriver_windows')
     driver.get('https://www.instagram.com/accounts/login/?hl=en')
-    
+
+    time.sleep(1)
     username = driver.find_element_by_name("username")
     username.clear()
     username.send_keys(usernameInput)
-    
+
+    time.sleep(1)
     password = driver.find_element_by_name("password")
     password.clear()
     password.send_keys(passwordInput)
 
     password.send_keys(Keys.RETURN)
 
+    time.sleep(2)
     try:
         notnow = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[3]/button[1]")
         notnow.click()
     except:
         pass
 
-    # time.sleep(2)
+    time.sleep(2)
     
     goToProfile(driver, usernameInput)
     
