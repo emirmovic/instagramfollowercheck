@@ -6,6 +6,61 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
 import time
 
+
+def finalArrayGUI(finalArray, driver):
+    def confirm():
+        unfollowList = []
+        for i in range(len(finalArray)):
+            if (check_boxes[finalArray[i]].get() == 1):
+                unfollowList.append(finalArray[i])
+        print(unfollowList)
+
+        for item in unfollowList:
+            search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
+            search.clear()
+            search.send_keys(item)
+            time.sleep(1)
+            search.send_keys(Keys.TAB)
+            search.send_keys(Keys.ENTER)
+            clickunfollow = driver.find_element_by_xpath('/html/body/span/section/main/div/header/section/div[1]/div[1]/span/span[1]/button')
+            clickunfollow.click()
+            driver.implicitly_wait(2)
+            clicksure = driver.find_element_by_xpath('/html/body/div[3]/div/div/div[3]/button[1]')
+            clicksure.click()
+            time.sleep(0.3)
+
+
+        master2.destroy()
+
+    master.destroy()
+
+    master2 = Tk()
+    master2.title("everyone")
+
+
+    count = 0
+    rownum = 5
+    colnum = 0
+
+
+    check_boxes = {item:IntVar() for item in finalArray} #create dict of check_boxes
+
+    while count < len(finalArray):
+        if colnum == 3:
+            colnum = 0
+            rownum += 2
+        Label(master2, text = finalArray[count]).grid(row = rownum, column = colnum, ipadx = 30)
+
+        C = Checkbutton(master2, text="unfollow", variable = check_boxes[finalArray[count]]).grid(row= rownum + 1, column = colnum, ipadx = 5)
+
+        count += 1
+        colnum += 1
+
+    button = Button(master2, text="unfollow selected", fg="red", pady = 10, command = confirm)
+    button.grid(row = rownum+2,column=1)
+
+    master2.mainloop()
+
 def analyzeFollowers(driver, followers, totalFollowers):
     driver.implicitly_wait(2)
     tabthrough = driver.find_element_by_css_selector('div[role=\'dialog\'] ul')
@@ -84,6 +139,12 @@ def analyzeFollowers(driver, followers, totalFollowers):
 
     print("List of people that don't follow you back: " + str(finalArray))
 
+    pressexit = driver.find_element_by_xpath('/html/body/div[3]/div/div[1]/div/div[2]/button')
+    pressexit.click()
+
+
+    finalArrayGUI(finalArray, driver)
+
 def goToProfile(driver, usernameInput, seconds):
     driver.implicitly_wait(2)
     search = driver.find_element_by_xpath('/html/body/span/section/nav/div[2]/div/div/div[2]/input')
@@ -117,18 +178,14 @@ def instagramLogin(usernameInput, passwordInput):
 
     password.send_keys(Keys.RETURN)
 
-    time.sleep(1.5)
+    time.sleep(1.8)
     try:
         notnow = driver.find_element_by_xpath("/html/body/div[3]/div/div/div[3]/button[1]")
         notnow.click()
     except:
         pass
 
-## May cause errors, use try except block ##
-    goToProfile(driver, usernameInput, 0.8)
-##    except:
-##        goToProfile(driver, usernameInput, 2)
-
+    goToProfile(driver, usernameInput, 1)
 
 def setVariables():
     usernameInput = entry1.get()
@@ -160,6 +217,5 @@ img1 = img.subsample(4, 4)
 
 Label(master, image = img1, bg = "#031229").grid(row = 5,
        columnspan = 2, rowspan = 2, padx = 1, )
-
 
 master.mainloop()
